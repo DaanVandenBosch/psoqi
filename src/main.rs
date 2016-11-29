@@ -30,7 +30,7 @@ fn main() {
         .arg(Arg::with_name("INPUT")
             .required(true)
             .multiple(true)
-            .help("Files to process"))
+            .help("Files and/or directories to process"))
         .get_matches();
 
     let files: Vec<&str> = matches.values_of("INPUT").unwrap().collect();
