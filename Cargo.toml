@@ -1,0 +1,13 @@
+[package]
+name = "psoqi"
+version = "0.1.0"
+authors = ["Daan Vanden Bosch <daan@daanvandenbosch.com>"]
+description = "A tool for extracting information from Phantasy Star Online quest files."
+license = "MIT"
+publish = false
+
+[dependencies]
+encoding = "0.2.33"
+byteorder = "0.5.3"
+csv = "0.14.7"
+clap = "2.19.0"
