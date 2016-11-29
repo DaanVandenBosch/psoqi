@@ -2,7 +2,7 @@
 
 ## Details and Usage
 
-Psoqi is a command line program for extracting the quest name, short description and enemy counts from Phantasy Star Online quest files. It also tries to determine the quest's episode by looking at the kind of enemies it contains and in which areas those enemies are located, it defaults to episode I. It's written in Rust and should run anywhere Rust runs.
+Psoqi is a command line program for extracting the quest name, short description and enemy counts from Phantasy Star Online quest files. It also tries to determine the quest's episode by looking at the kind of enemies it contains and in which areas those enemies are located, it defaults to episode I. Psoqi is written in Rust and should run anywhere Rust runs.
 
     USAGE:
         psoqi [FLAGS] <INPUT>...
@@ -30,3 +30,7 @@ Psoqi is a command line program for extracting the quest name, short description
 ## Building
 
 Install Rust and run a debug build with `cargo run -- <PSOQI ARGS>` or build a release version with `cargo build --release`.
+
+## License
+
+[MIT](https://github.com/DaanVandenBosch/psoqi/blob/master/LICENSE)
