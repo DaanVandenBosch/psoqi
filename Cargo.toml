@@ -1,6 +1,6 @@
 [package]
 name = "psoqi"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Daan Vanden Bosch <daan@daanvandenbosch.com>"]
 description = "A tool for extracting information from Phantasy Star Online quest files."
 license = "MIT"
