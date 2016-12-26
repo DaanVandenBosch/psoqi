@@ -24,8 +24,7 @@ pub fn decompress<S: Read, D: Read + Write + Seek>(src: &mut S, dst: &mut D) -> 
                 size |= cxt.read_flag_bit()? as u16;
                 size += 2;
 
-                offset = cxt.read_byte()? as i16;
-                offset |= 0xFF00u32 as i16;
+                offset = cxt.read_byte()? as i16 - 256;
             } else {
                 // Long copy or end of file.
                 offset = cxt.read_short()? as i16;
@@ -37,7 +36,7 @@ pub fn decompress<S: Read, D: Read + Write + Seek>(src: &mut S, dst: &mut D) -> 
 
                 // Do we need to read a size byte, or is it encoded in what we already have?
                 size = offset as u16 & 0b111;
-                offset >>= 3;
+                offset = ((offset as u16) >> 3) as i16;
 
                 if size == 0 {
                     size = cxt.read_byte()? as u16;
@@ -46,7 +45,7 @@ pub fn decompress<S: Read, D: Read + Write + Seek>(src: &mut S, dst: &mut D) -> 
                     size += 2;
                 }
 
-                offset |= 0xE000u32 as i16;
+                offset -= 8192;
             }
 
             cxt.offset_copy(offset, size)?;

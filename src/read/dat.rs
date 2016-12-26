@@ -23,109 +23,143 @@ pub fn read<T: Read + Seek>(data: &mut T) -> read::Result<DatFile> {
     };
 
     for MonsterData { id, regular, skin, area } in monster_data {
-        let result = match (id, skin) {
-            (0x0040, 0) => Some(if episode == Episode::I { Hildebear } else { Hildebear2 }),
-            (0x0040, 1) => Some(if episode == Episode::I { Hildeblue } else { Hildeblue2 }),
-            (0x0041, 0) => Some(match episode {
-                Episode::I => RagRappy,
-                Episode::II => RagRappy2,
-                Episode::IV => SandRappy
-            }),
-            (0x0041, 1) => Some(match episode {
-                Episode::I => AlRappy,
-                Episode::II => AlRappy2,
-                Episode::IV => DelRappy
-            }),
-            (0x0042, _) => Some(if episode == Episode::I { Monest } else { Monest2 }),
-            (0x0043, 0) => Some(if episode == Episode::I { SavageWolf } else { SavageWolf2 }),
-            (0x0043, 1) => Some(if episode == Episode::I { BarbarousWolf } else { BarbarousWolf2 }),
-            (0x0044, 0) => Some(Booma),
-            (0x0044, 1) => Some(Gobooma),
-            (0x0044, 2) => Some(Gigobooma),
+        let mut result = None;
 
-            (0x0060, _) => Some(if episode == Episode::I { GrassAssassin } else { GrassAssassin2 }),
-            (0x0061, 0) => Some(if area > 15 { DelLily } else if episode == Episode::I { PoisonLily } else { PoisonLily2 }),
-            (0x0061, 1) => Some(if area > 15 { DelLily } else if episode == Episode::I { NarLily } else { NarLily2 }),
-            (0x0062, _) => Some(NanoDragon),
-            (0x0063, 0) => Some(EvilShark),
-            (0x0063, 1) => Some(PalShark),
-            (0x0063, 2) => Some(GuilShark),
-            (0x0064, _) => Some(if regular { PofuillySlime } else { PouillySlime }),
-            (0x0065, _) => Some(if episode == Episode::I { PanArms } else { PanArms2 }),
+        result = match (id, skin % 3, episode) {
+            (0x044, 0, _) => Some(Booma),
+            (0x044, 1, _) => Some(Gobooma),
+            (0x044, 2, _) => Some(Gigobooma),
 
-            (0x0080, 0) => Some(if episode == Episode::I { Dubchic } else { Dubchic2 }),
-            (0x0080, 1) => Some(if episode == Episode::I { Gilchic } else { Gilchic2 }),
-            (0x0081, _) => Some(if episode == Episode::I { Garanz } else { Garanz2 }),
-            (0x0082, _) => Some(if regular { SinowBeat } else { SinowGold }),
-            (0x0083, _) => Some(Canadine),
-            (0x0084, _) => {
+            (0x063, 0, _) => Some(EvilShark),
+            (0x063, 1, _) => Some(PalShark),
+            (0x063, 2, _) => Some(GuilShark),
+
+            (0x0A6, 0, Episode::I) => Some(Dimenian),
+            (0x0A6, 0, Episode::II) => Some(Dimenian2),
+            (0x0A6, 1, Episode::I) => Some(LaDimenian),
+            (0x0A6, 1, Episode::II) => Some(LaDimenian2),
+            (0x0A6, 2, Episode::I) => Some(SoDimenian),
+            (0x0A6, 2, Episode::II) => Some(SoDimenian2),
+
+            (0x0D6, 0, _) => Some(Mericarol),
+            (0x0D6, 1, _) => Some(Mericus),
+            (0x0D6, 2, _) => Some(Merikle),
+
+            (0x115, 0, _) => Some(Boota),
+            (0x115, 1, _) => Some(ZeBoota),
+            (0x115, 2, _) => Some(BaBoota),
+            (0x117, 0, _) => Some(Goran),
+            (0x117, 1, _) => Some(PyroGoran),
+            (0x117, 2, _) => Some(GoranDetonator),
+
+            _ => result
+        };
+
+        result = match (id, skin % 2, episode) {
+            (0x040, 0, Episode::I) => Some(Hildebear),
+            (0x040, 0, Episode::II) => Some(Hildebear2),
+            (0x040, 1, Episode::I) => Some(Hildeblue),
+            (0x040, 1, Episode::II) => Some(Hildeblue2),
+            (0x041, 0, Episode::I) => Some(RagRappy),
+            (0x041, 0, Episode::II) => Some(RagRappy2),
+            (0x041, 0, Episode::IV) => Some(SandRappy),
+            (0x041, 1, Episode::I) => Some(AlRappy),
+            (0x041, 1, Episode::II) => Some(LoveRappy),
+            (0x041, 1, Episode::IV) => Some(DelRappy),
+
+            (0x061, 0, Episode::I) => Some(if area > 15 { DelLily } else { PoisonLily }),
+            (0x061, 0, Episode::II) => Some(if area > 15 { DelLily } else { PoisonLily2 }),
+            (0x061, 1, Episode::I) => Some(if area > 15 { DelLily } else { NarLily }),
+            (0x061, 1, Episode::II) => Some(if area > 15 { DelLily } else { NarLily2 }),
+
+            (0x080, 0, Episode::I) => Some(Dubchic),
+            (0x080, 0, Episode::II) => Some(Dubchic2),
+            (0x080, 1, Episode::I) => Some(Gilchic),
+            (0x080, 1, Episode::II) => Some(Gilchic2),
+
+            (0x0D4, 0, _) => Some(SinowBerill),
+            (0x0D4, 1, _) => Some(SinowSpigell),
+            (0x0D5, 0, _) => Some(Merillia),
+            (0x0D5, 1, _) => Some(Meriltas),
+            (0x0D7, 0, _) => Some(UlGibbon),
+            (0x0D7, 1, _) => Some(ZolGibbon),
+
+            (0x0DD, 0, _) => Some(Dolmolm),
+            (0x0DD, 1, _) => Some(Dolmdarl),
+            (0x0E0, 0, _) => Some(if area > 15 { Epsilon } else { SinowZoa }),
+            (0x0E0, 1, _) => Some(if area > 15 { Epsilon } else { SinowZele }),
+
+            (0x112, 0, _) => Some(MerissaA),
+            (0x112, 1, _) => Some(MerissaAA),
+            (0x114, 0, _) => Some(Zu),
+            (0x114, 1, _) => Some(Pazuzu),
+            (0x116, 0, _) => Some(Dorphon),
+            (0x116, 1, _) => Some(DorphonEclair),
+            (0x119, 0, _) => Some(if regular { SaintMillion } else { Kondrieu }),
+            (0x119, 1, _) => Some(if regular { Shambertin } else { Kondrieu }),
+
+            _ => result
+        };
+
+        result = match (id, episode) {
+            (0x042, Episode::I) => Some(Monest),
+            (0x042, Episode::II) => Some(Monest2),
+            (0x043, Episode::I) => Some(if regular { SavageWolf } else { BarbarousWolf }),
+            (0x043, Episode::II) => Some(if regular { SavageWolf2 } else { BarbarousWolf2 }),
+
+            (0x060, Episode::I) => Some(GrassAssassin),
+            (0x060, Episode::II) => Some(GrassAssassin2),
+            (0x062, _) => Some(NanoDragon),
+            (0x064, _) => Some(if regular { PofuillySlime } else { PouillySlime }),
+            (0x065, Episode::I) => Some(PanArms),
+            (0x065, Episode::II) => Some(PanArms2),
+
+            (0x081, Episode::I) => Some(Garanz),
+            (0x081, Episode::II) => Some(Garanz2),
+            (0x082, _) => Some(if regular { SinowBeat } else { SinowGold }),
+            (0x083, _) => Some(Canadine),
+            (0x084, _) => {
                 *dat_file.monster_counts.entry(Canadine).or_insert(0) += 8;
                 Some(Canane)
             },
-            (0x0085, _) => Some(if episode == Episode::I { Dubwitch } else { Dubwitch2 }),
+            (0x085, Episode::I) => Some(Dubswitch),
+            (0x085, Episode::II) => Some(Dubswitch2),
 
-            (0x00A0, _) => Some(if episode == Episode::I { Delsaber } else { Delsaber2 }),
-            (0x00A1, _) => Some(if episode == Episode::I { ChaosSorcerer } else { ChaosSorcerer2 }),
-            (0x00A2, _) => Some(DarkGunner),
-            (0x00A4, _) => Some(ChaosBringer),
-            (0x00A5, _) => Some(if episode == Episode::I { DarkBelra } else { DarkBelra2 }),
-            (0x00A6, 0) => Some(if episode == Episode::I { Dimenian } else { Dimenian2 }),
-            (0x00A6, 1) => Some(if episode == Episode::I { LaDimenian } else { LaDimenian2 }),
-            (0x00A6, 2) => Some(if episode == Episode::I { SoDimenian } else { SoDimenian2 }),
-            (0x00A7, _) => Some(Bulclaw),
-            (0x00A8, _) => Some(Claw),
+            (0x0A0, Episode::I) => Some(Delsaber),
+            (0x0A0, Episode::II) => Some(Delsaber2),
+            (0x0A1, Episode::I) => Some(ChaosSorcerer),
+            (0x0A1, Episode::II) => Some(ChaosSorcerer2),
+            (0x0A2, _) => Some(DarkGunner),
+            (0x0A4, _) => Some(ChaosBringer),
+            (0x0A5, Episode::I) => Some(DarkBelra),
+            (0x0A5, Episode::II) => Some(DarkBelra2),
+            (0x0A7, _) => Some(Bulclaw),
+            (0x0A8, _) => Some(Claw),
 
-            (0x00C0, _) => Some(if episode == Episode::I { Dragon } else { GalGryphon }),
-            (0x00C1, _) => Some(DeRolLe),
-            (0x00C5, _) => Some(VolOpt),
-            (0x00C8, _) => Some(DarkFalz),
-            (0x00CA, _) => Some(OlgaFlow),
-            (0x00CB, _) => Some(BarbaRay),
-            (0x00CC, _) => Some(GolDragon),
+            (0x0C0, Episode::I) => Some(Dragon),
+            (0x0C0, Episode::II) => Some(GalGryphon),
+            (0x0C1, _) => Some(DeRolLe),
+            (0x0C5, _) => Some(VolOpt),
+            (0x0C8, _) => Some(DarkFalz),
+            (0x0CA, _) => Some(OlgaFlow),
+            (0x0CB, _) => Some(BarbaRay),
+            (0x0CC, _) => Some(GolDragon),
 
-            (0x00D4, 0) => Some(SinowBerill),
-            (0x00D4, 1) => Some(SinowSpigell),
-            (0x00D5, 0) => Some(Merillia),
-            (0x00D5, 1) => Some(Meriltas),
-            (0x00D6, 0) => Some(Mericarol),
-            (0x00D6, 1) => Some(Mericus),
-            (0x00D6, 2) => Some(Merikle),
-            (0x00D7, 0) => Some(UlGibbon),
-            (0x00D7, 1) => Some(ZolGibbon),
-            (0x00D8, _) => Some(Gibbles),
-            (0x00D9, _) => Some(Gee),
-            (0x00DA, _) => Some(GiGue),
+            (0x0D8, _) => Some(Gibbles),
+            (0x0D9, _) => Some(Gee),
+            (0x0DA, _) => Some(GiGue),
 
-            (0x00DB, _) => Some(Deldepth),
-            (0x00DC, _) => Some(Delbiter),
-            (0x00DD, 0) => Some(Dolmolm),
-            (0x00DD, 1) => Some(Dolmdarl),
-            (0x00DE, _) => Some(Morfos),
-            (0x00DF, _) => Some(Recobox),
-            (0x00E0, 0) => Some(if area > 15 { Epsilon } else { SinowZoa }),
-            (0x00E0, 1) => Some(if area > 15 { Epsilon } else { SinowZele }),
-            (0x00E1, _) => Some(IllGill),
+            (0x0DB, _) => Some(Deldepth),
+            (0x0DC, _) => Some(Delbiter),
+            (0x0DE, _) => Some(Morfos),
+            (0x0DF, _) => Some(Recobox),
+            (0x0E1, _) => Some(IllGill),
 
-            (0x0110, _) => Some(Astark),
-            (0x0111, 0) => Some(SatelliteLizard),
-            (0x0111, 1) => Some(Yowie),
-            (0x0112, 0) => Some(MerissaA),
-            (0x0112, 1) => Some(MerissaAA),
-            (0x0113, _) => Some(Girtablulu),
-            (0x0114, 0) => Some(Zu),
-            (0x0114, 1) => Some(Pazuzu),
-            (0x0115, 0) => Some(Boota),
-            (0x0115, 1) => Some(ZaBoota),
-            (0x0115, 2) => Some(BaBoota),
-            (0x0116, 0) => Some(Dorphon),
-            (0x0116, 1) => Some(DorphonEclair),
-            (0x0117, 0) => Some(Goran),
-            (0x0117, 1) => Some(PyroGoran),
-            (0x0117, 2) => Some(GoranDetonator),
-            (0x0119, 0) => Some(SaintMillion),
-            (0x0119, 1) => Some(Shambertin),
+            (0x110, _) => Some(Astark),
+            (0x111, _) => Some(if regular { SatelliteLizard } else { Yowie }),
+            (0x113, _) => Some(Girtablulu),
 
-            _ => None
+            _ => result
         };
 
         if let Some(monster_type) = result {

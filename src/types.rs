@@ -55,7 +55,7 @@ pub enum MonsterType {
     SinowGold,
     Canadine,
     Canane,
-    Dubwitch,
+    Dubswitch,
     VolOpt,
 
     Delsaber,
@@ -73,7 +73,7 @@ pub enum MonsterType {
     Hildebear2,
     Hildeblue2,
     RagRappy2,
-    AlRappy2,
+    LoveRappy,
     Monest2,
     PoisonLily2,
     NarLily2,
@@ -90,7 +90,7 @@ pub enum MonsterType {
     Dubchic2,
     Gilchic2,
     Garanz2,
-    Dubwitch2,
+    Dubswitch2,
     Delsaber2,
     ChaosSorcerer2,
     GolDragon,
@@ -133,7 +133,7 @@ pub enum MonsterType {
     Zu,
     Pazuzu,
     Boota,
-    ZaBoota,
+    ZeBoota,
     BaBoota,
     Dorphon,
     DorphonEclair,
@@ -141,7 +141,8 @@ pub enum MonsterType {
     PyroGoran,
     GoranDetonator,
     SaintMillion,
-    Shambertin
+    Shambertin,
+    Kondrieu
 }
 
 impl fmt::Display for MonsterType {
@@ -180,7 +181,7 @@ impl fmt::Display for MonsterType {
             SinowGold => "Sinow Gold",
             Canadine => "Canadine",
             Canane => "Canane",
-            Dubwitch => "Dubwitch",
+            Dubswitch => "Dubswitch",
             VolOpt => "Vol Opt",
 
             Delsaber => "Delsaber",
@@ -198,7 +199,7 @@ impl fmt::Display for MonsterType {
             Hildebear2 => "Hildebear (Ep. II)",
             Hildeblue2 => "Hildeblue (Ep. II)",
             RagRappy2 => "Rag Rappy (Ep. II)",
-            AlRappy2 => "Al Rappy (Ep. II)",
+            LoveRappy => "Love Rappy",
             Monest2 => "Monest (Ep. II)",
             PoisonLily2 => "Poison Lily (Ep. II)",
             NarLily2 => "Nar Lily (Ep. II)",
@@ -215,7 +216,7 @@ impl fmt::Display for MonsterType {
             Dubchic2 => "Dubchic (Ep. II)",
             Gilchic2 => "Gilchic (Ep. II)",
             Garanz2 => "Garanz (Ep. II)",
-            Dubwitch2 => "Dubwitch (Ep. II)",
+            Dubswitch2 => "Dubswitch (Ep. II)",
             Delsaber2 => "Delsaber (Ep. II)",
             ChaosSorcerer2 => "Chaos Sorcerer (Ep. II)",
             GolDragon => "Gol Dragon",
@@ -258,7 +259,7 @@ impl fmt::Display for MonsterType {
             Zu => "Zu",
             Pazuzu => "Pazuzu",
             Boota => "Boota",
-            ZaBoota => "Za Boota",
+            ZeBoota => "Ze Boota",
             BaBoota => "Ba Boota",
             Dorphon => "Dorphon",
             DorphonEclair => "Dorphon Eclair",
@@ -266,7 +267,8 @@ impl fmt::Display for MonsterType {
             PyroGoran => "Pyro Goran",
             GoranDetonator => "Goran Detonator",
             SaintMillion => "Saint Million",
-            Shambertin => "Shambertin"
+            Shambertin => "Shambertin",
+            Kondrieu => "Kondrieu"
         };
 
         write!(f, "{}", name)
